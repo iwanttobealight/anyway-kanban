@@ -1,0 +1,43 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-lightgray);
+  margin-right: 15px;
+  border-radius: 5px;
+  border: 1px solid var(--color-border);
+  padding: 20px;
+}
+
+.list:last-of-type {
+  margin-right: 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.title {
+  font-size: 16px;
+  line-height: 20px;
+  margin: 0;
+}
+
+.cardsCount {
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  color: var(--color-text-secondary);
+  background-color: var(--color-gray);
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.button {
+  margin-top: 25px;
+  align-self: center;
+}
