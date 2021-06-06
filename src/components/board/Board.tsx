@@ -9,9 +9,10 @@ interface BoardProps {
   lists: ListI[]
   cards: CardI[]
   updateCards: Dispatch<SetStateAction<CardI[]>>
+  addNewCard: () => void
 }
 
-export const Board = ({ lists, cards, updateCards }: BoardProps) => {
+export const Board = ({ lists, cards, updateCards, addNewCard }: BoardProps) => {
   return lists?.length <= 0 ? null :
     <Row className={styles.board}>
       {lists.map(({ status, title }) =>
@@ -20,7 +21,9 @@ export const Board = ({ lists, cards, updateCards }: BoardProps) => {
           title={title}
           status={status}
           cards={cards.filter((card: CardI) => card.status === status)}
-          updateCards={updateCards} />
+          updateCards={updateCards}
+          addNewCard={addNewCard}
+          />
       )}
     </Row>
 }

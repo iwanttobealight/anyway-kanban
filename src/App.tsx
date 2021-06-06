@@ -1,70 +1,37 @@
+import * as api from './api'
+
+import { CardI, ListI } from './interfaces'
 import { useEffect, useState } from 'react'
 
 import { Board } from './components/board'
-import { CardI } from './interfaces'
-import { CardStatus } from './enums'
 import { Container } from 'react-bootstrap'
 import { Header } from './components/header'
 import styles from './App.module.css'
 
-const initialLists = [
-  {
-    order: '1',
-    title: 'To do',
-    status: CardStatus.Todo
-  },
-  {
-    order: '2',
-    title: 'In progress',
-    status: CardStatus.InProgress
-  },
-  {
-    order: '3',
-    title: 'Done',
-    status: CardStatus.Done
-  }
-]
-
-const initialCards = [
-  {
-    id: '1',
-    title: 'Build a house',
-    status: CardStatus.Todo
-  },
-  {
-    id: '2',
-    title: 'Plant a tree',
-    status: CardStatus.Todo
-  },
-  {
-    id: '3',
-    title: 'Go to grocery',
-    status: CardStatus.InProgress
-  },
-  {
-    id: '4',
-    title: 'Take out the trash',
-    status: CardStatus.Done,
-    price: '40'
-  },
-  {
-    id: '5',
-    title: 'Walk the dog',
-    status: CardStatus.Done
-  }
-] as CardI[]
-
 function App() {
-  const [cards, setCards] = useState<CardI[]>(initialCards)
+  const [cards, setCards] = useState<CardI[]>([])
+  const [lists, setLists] = useState<ListI[]>([])
 
   useEffect(() => {
-    // todo: download cards
+    Promise.all([
+      api.getAllCards(),
+      api.getAllLists()
+    ])
+      .then(([cards, lists]) => {
+        setCards(cards)
+        setLists(lists)
+      })
+
   }, [])
+
+  const addNewCard = () => {
+    api.getNewCard().then(newCard => setCards(prevCards => [...prevCards, newCard]))
+  }
 
   return (
     <Container className={styles.container} >
       <Header />
-      <Board cards={cards} lists={initialLists} updateCards={setCards} />
+      <Board cards={cards} lists={lists} updateCards={setCards} addNewCard={addNewCard} />
     </Container>
   );
 }
